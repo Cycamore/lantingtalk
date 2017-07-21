@@ -30,8 +30,8 @@ urlpatterns = [
 
 
     # upload
-    url(r'^upload/', blog_views.upload, name='blog_upload'),
-    url(r'^qiniuupload/', blog_views.qiniuupload, name='blog_upload'),
-    url(r'^api/article/$', blog_views.api_blog, name='api_blog'),
+    url(r'^upload/', article_views.upload, name='blog_upload'),
+    url(r'^qiniuupload/', article_views.qiniuupload, name='blog_upload'),
+    url(r'^api/article/$', article_views.api_blog, name='api_blog'),
 
 ]

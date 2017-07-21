@@ -10,8 +10,8 @@ from django.urls import reverse
 
 class Author(models.Model):
     name = models.CharField(max_length=50)
-    qq = models.CharField(max_length=10)
-    addr = models.TextField()
+    qq = models.CharField(max_length=10,blank=True)
+    addr = models.TextField(blank=True)
     email = models.EmailField()
 
     def __str__(self):
@@ -20,7 +20,7 @@ class Author(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=50)
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey('Author')
     content = models.TextField()
     score = models.IntegerField()  # 文章的打分
     tags = models.ManyToManyField('Tag')
@@ -31,7 +31,7 @@ class Article(models.Model):
         # 自定义 get_absolute_url 方法
         # 记得从 django.urls 中导入 reverse 函数
     def get_absolute_url(self):
-        return reverse('article:article_detail', kwargs={'pk': self.pk})
+        return reverse('article_detail', kwargs={'pk': self.pk})
 
 
 class ArticleAdmin(admin.ModelAdmin):
