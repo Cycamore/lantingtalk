@@ -1,6 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-    {% for ar in article %}
+    {% for ar in articles %}
         <a href="{% url 'article_detail' ar.pk %}">
             <p>{{ ar.title }}</p>
         </a>
