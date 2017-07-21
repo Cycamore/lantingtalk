@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.contrib import admin
 from django.db import models
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -17,7 +18,6 @@ class Author(models.Model):
         return self.name
 
 
-
 class Article(models.Model):
     title = models.CharField(max_length=50)
     author = models.ForeignKey(Author)
@@ -28,9 +28,14 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('pk','title','author','content')
+        # 自定义 get_absolute_url 方法
+        # 记得从 django.urls 中导入 reverse 函数
+    def get_absolute_url(self):
+        return reverse('article:article_detail', kwargs={'pk': self.pk})
 
+
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'title', 'author', 'content')
 
 
 class Tag(models.Model):
@@ -47,9 +52,8 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+
 # 上传表单
 class UserForm(forms.Form):
     username = forms.CharField()
     head_img = forms.FileField()
-
-

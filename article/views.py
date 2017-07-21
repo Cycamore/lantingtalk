@@ -10,13 +10,13 @@ from article.models import *
 
 # Create your views here.
 def index(request):
-    article = Article.objects.all()
-    return render(request, 'blog/index.html', context={'article': article})
+    articles = Article.objects.all()
+    return render(request, 'article/index.html', context={'articles': articles})
 
 
 def article_detail(request, pk):
     art = get_object_or_404(Article, pk=pk)
-    return render(request,'blog/article_detail.html',context={'art':art})
+    return render(request, 'article/article_detail.html', context={'art':art})
 
 
 
@@ -36,7 +36,7 @@ def upload(request):
             return HttpResponse('upload ok')
     else:
         uf = UserForm()
-    return render_to_response('blog/upload.html', {'uf': uf})
+    return render_to_response('article/upload.html', {'uf': uf})
 
 
 # 上传至七牛云
@@ -50,7 +50,7 @@ def qiniuupload(request):
     token = q.upload_token(BUCKET_NAME, key, 7200, {'returnUrl': 'http://127.0.0.1:8000/',
                                                     'returnBody': '{"name": $(fname), "key": $(key)}',
                                                     'mimeLimit': 'image/jpeg;image/png'})
-    return render_to_response('blog/qiniuupload.html', {'token': token, 'key': key})
+    return render_to_response('article/qiniuupload.html', {'token': token, 'key': key})
 
 
 # 将blog生成json返回给客户端

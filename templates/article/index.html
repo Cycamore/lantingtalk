@@ -1,4 +1,4 @@
-{% extends 'blog/base.html' %}
+{% extends 'article/base.html' %}
 {% block content %}
     {% for ar in articles %}
         <a href="{% url 'article_detail' ar.pk %}">
