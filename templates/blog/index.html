@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    {% for ar in article %}
+        <a href="{% url 'article_detail' ar.pk %}">
+            <p>{{ ar.title }}</p>
+        </a>
+    {% empty %}
+        <div class="no-post">暂时还没有发布的文章！</div>
+    {% endfor %}
+
+{% endblock %}
+

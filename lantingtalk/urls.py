@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from article import views as blog_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # index
+    url(r'^$', blog_views.index, name='blog_index'),
+    # detail
+    url(r'^article/(?P<pk>\d+)$',blog_views.article_detail,name='article_detail'),
+
+
+    # upload
+    url(r'^upload/', blog_views.upload, name='blog_upload'),
+    url(r'^qiniuupload/', blog_views.qiniuupload, name='blog_upload'),
+    url(r'^api/article/$', blog_views.api_blog, name='api_blog'),
+
 ]
