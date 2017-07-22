@@ -1,23 +1,39 @@
-import json
 import uuid
 
+import markdown
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, render, get_object_or_404
 
-from article.models import *
+from app_article.models import *
+from app_comments.forms import TestForm
 
 
 # Create your views here.
+
+def test(request):
+    form = TestForm()
+    return render(request, 'article/test.html', context={'form': form})
+
+
 def index(request):
-    articles = Article.objects.all()
+    articles = Article.objects.all().order_by('-created_time')
     return render(request, 'article/index.html', context={'articles': articles})
 
 
 def article_detail(request, pk):
-    art = get_object_or_404(Article, pk=pk)
-    return render(request, 'article/article_detail.html', context={'art':art})
-
+    article = get_object_or_404(Article, pk=pk)
+    comments = article.comment_set.all()
+    # 记得在顶部引入 markdown 模块
+    article.content = markdown.markdown(article.content,
+                                        extensions=[
+                                            'markdown.extensions.extra',
+                                            'markdown.extensions.codehilite',
+                                            'markdown.extensions.toc',
+                                        ])
+    # cf=CommentForm()
+    context = {'article': article, 'comments': comments}
+    return render(request, 'article/article_detail.html', context)
 
 
 # 文件上传

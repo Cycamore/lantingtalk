@@ -23,6 +23,7 @@ class Article(models.Model):
     author = models.ForeignKey('Author')
     content = models.TextField()
     score = models.IntegerField()  # 文章的打分
+    created_time=models.DateTimeField()
     tags = models.ManyToManyField('Tag')
 
     def __str__(self):
@@ -35,7 +36,7 @@ class Article(models.Model):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'title', 'author', 'content')
+    list_display = ('pk','author','created_time','title', 'content')
 
 
 class Tag(models.Model):

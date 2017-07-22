@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import random
 from lantingtalk.wsgi import *
-from article.models import Author, Article, Tag
+from app_article.models import Author, Article, Tag
 
 author_name_list = ['WeizhongTu', 'twz915', 'dachui', 'zhe', 'zhen']
 article_title_list = ['Django 教程', 'Python 教程', 'HTML 教程']
