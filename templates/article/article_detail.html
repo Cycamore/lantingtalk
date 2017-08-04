@@ -1,21 +1,19 @@
 {% extends 'article/base.html' %}
 {% block content %}
     <p>{{ article.title }}</p>
-    <p>{{ article.content|safe }}</p>
+    <p>{{ article.content|safe}}</p>
     <p><a href="{% url 'article_index' %}">返回首页</a></p>
     <p><a href="/admin/">[admin]</a></p>
     <hr>
 
-    {# add comment#}
+    {# post comment#}
 
     <form action="{% url 'comment_add' article.pk %}" method="post">
         {% csrf_token %}
         user name:<input type="text" name="user"><br>
         comment:<input type="text" name="text"> <br>
         <input type="submit" value="summit">
-
     </form>
-
 
     {#  comment list#}
     {% for comment in comments %}

@@ -37,6 +37,9 @@ class Article(models.Model):
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('pk','author','created_time','title', 'content')
+    list_editable = ('content',)
+    list_per_page = 5
+
 
 
 class Tag(models.Model):

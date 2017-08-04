@@ -23,7 +23,6 @@ def index(request):
 
 def article_detail(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    comments = article.comment_set.all()
     # 记得在顶部引入 markdown 模块
     article.content = markdown.markdown(article.content,
                                         extensions=[
@@ -32,6 +31,7 @@ def article_detail(request, pk):
                                             'markdown.extensions.toc',
                                         ])
     # cf=CommentForm()
+    comments = article.comment_set.all()
     context = {'article': article, 'comments': comments}
     return render(request, 'article/article_detail.html', context)
 
@@ -70,7 +70,14 @@ def qiniuupload(request):
 
 
 # 将blog生成json返回给客户端
-def api_blog(request):
-    article = Article.objects.all()
-    data = serializers.serialize('json', article)
+def api_article(request):
+    article = Article.objects.all()[:2]
+    data = serializers.serialize('json', article, fields=('title', 'content'))
+    return HttpResponse(data)
+
+
+def api_article2(request, count, page):
+    article = Article.objects.all()[(page - 1) * count:page * count]
+
+    data = serializers.serialize('json', article, fields=('title', 'content'))
     return HttpResponse(data)

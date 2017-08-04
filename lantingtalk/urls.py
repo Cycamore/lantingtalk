@@ -7,11 +7,12 @@ from app_comments import views as comment_views
 
 urlpatterns = [
 
-
+    # api
+    url(r'^api/article/$', article_views.api_article, name='api_blog'),
 
     # test
     url(r'^test/', article_views.test),
-    url(r'^reg/',login),
+    url(r'^reg/', login),
     url(r'^admin/', admin.site.urls),
     url(r'^$', article_views.index, name='index'),
 
@@ -25,6 +26,6 @@ urlpatterns = [
     # upload
     url(r'^upload/', article_views.upload, name='blog_upload'),
     url(r'^qiniuupload/', article_views.qiniuupload, name='blog_upload'),
-    url(r'^api/app_article/$', article_views.api_blog, name='api_blog'),
+
 
 ]
