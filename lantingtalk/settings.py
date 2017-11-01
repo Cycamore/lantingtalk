@@ -36,8 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_gushiwen.apps.GushiwenConfig',
-    'app_article.apps.BlogConfig',
-    'app_comments.apps.CommentsConfig'
+    'app_article',
+    'app_comments',
+    'rest_framework'
 ]
 # AUTH_USER_MODEL = 'users.User'
 
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'lantingtalk.urls'
@@ -154,3 +156,11 @@ STATIC_URL = '/static/'
 # USERS_CHECK_PASSWORD_COMPLEXITY = True
 #
 # USERS_SPAM_PROTECTION = False  # important!
+
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly']
+}

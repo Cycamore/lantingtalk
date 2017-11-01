@@ -10,9 +10,17 @@ from django.urls import reverse
 
 class Author(models.Model):
     name = models.CharField(max_length=50)
-    qq = models.CharField(max_length=10,blank=True)
+    qq = models.CharField(max_length=10, blank=True)
     addr = models.TextField(blank=True)
     email = models.EmailField()
+
+    def __str__(self):
+        return self.name
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=30)
+    age = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -23,7 +31,7 @@ class Article(models.Model):
     author = models.ForeignKey('Author')
     content = models.TextField()
     score = models.IntegerField()  # 文章的打分
-    created_time=models.DateTimeField()
+    created_time = models.DateTimeField()
     tags = models.ManyToManyField('Tag')
 
     def __str__(self):
@@ -31,15 +39,15 @@ class Article(models.Model):
 
         # 自定义 get_absolute_url 方法
         # 记得从 django.urls 中导入 reverse 函数
+
     def get_absolute_url(self):
         return reverse('article_detail', kwargs={'pk': self.pk})
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('pk','author','created_time','title', 'content')
+    list_display = ('pk', 'author', 'created_time', 'title', 'content')
     list_editable = ('content',)
     list_per_page = 5
-
 
 
 class Tag(models.Model):
@@ -55,6 +63,7 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
 
 
 # 上传表单

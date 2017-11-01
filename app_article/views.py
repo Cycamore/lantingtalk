@@ -4,9 +4,16 @@ import markdown
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, render, get_object_or_404
+from rest_framework import viewsets
+from app_article.serializers import UserSerializer,GroupSerializer
 
+import datetime
 from app_article.models import *
 from app_comments.forms import TestForm
+from django.views.generic import TemplateView
+
+class TestView(TemplateView):
+    template_name = "article/test.html"
 
 
 # Create your views here.
