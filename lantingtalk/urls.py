@@ -2,17 +2,18 @@ from django.conf.urls import url, include
 from rest_framework import routers, serializers, viewsets
 from django.contrib.auth.models import User
 from app_article.serializers import *
+from app_article.views import article_list
 
 # Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'articles', ArticleViewSet)
-
+# router = routers.DefaultRouter()
+# router.register(r'users', UserViewSet)
+# router.register(r'articles', ArticleViewSet)
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-
-    # api
+    url(r'^$', article_list, name='index')
+    # url(r'^', article_list),
+    # # url(r'^', include(router.urls)),
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    # # api
     # url(r'^api/article/$', article_views.api_article, name='api_blog'),
 
     # test

@@ -1,19 +1,22 @@
 import uuid
 
 import markdown
-from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render_to_response, render, get_object_or_404
-from rest_framework import viewsets
-from app_article.serializers import UserSerializer,GroupSerializer
+from django.views.decorators.csrf import csrf_exempt
 
-import datetime
 from app_article.models import *
+from app_article.serializers import ArticleSerializer
 from app_comments.forms import TestForm
-from django.views.generic import TemplateView
 
-class TestView(TemplateView):
-    template_name = "article/test.html"
+
+@csrf_exempt
+def article_list(request):
+    if request.method == 'GET':
+        articles = Article.objects.all()
+        serializer = ArticleSerializer(articles, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 
 
 # Create your views here.
@@ -76,15 +79,3 @@ def qiniuupload(request):
     return render_to_response('article/qiniuupload.html', {'token': token, 'key': key})
 
 
-# 将blog生成json返回给客户端
-def api_article(request):
-    article = Article.objects.all()[:2]
-    data = serializers.serialize('json', article, fields=('title', 'content'))
-    return HttpResponse(data)
-
-
-def api_article2(request, count, page):
-    article = Article.objects.all()[(page - 1) * count:page * count]
-
-    data = serializers.serialize('json', article, fields=('title', 'content'))
-    return HttpResponse(data)

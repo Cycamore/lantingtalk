@@ -8,23 +8,21 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('url', 'username')
 
-s= UserSerializer
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('url', 'name')
 
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ('title', 'author', 'content', 'created_time', 'tags')
+        fields = ('id', 'title', 'author', 'content', 'created_time', 'tags')
 
 
 class ArticleViewSet(viewsets.ModelViewSet):

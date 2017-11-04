@@ -9,18 +9,12 @@ from django.urls import reverse
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=50)
+    gender_choice = ((1, 'male'), (2, 'female'))
+    name = models.CharField(unique=True, max_length=50)
     qq = models.CharField(max_length=10, blank=True)
     addr = models.TextField(blank=True)
-    email = models.EmailField()
-
-    def __str__(self):
-        return self.name
-
-
-class Person(models.Model):
-    name = models.CharField(max_length=30)
-    age = models.IntegerField()
+    email = models.EmailField(blank=True, null=True)
+    gender = models.CharField(max_length=10, choices=gender_choice, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -30,17 +24,17 @@ class Article(models.Model):
     title = models.CharField(max_length=50)
     author = models.ForeignKey('Author')
     content = models.TextField()
-    score = models.IntegerField()  # 文章的打分
-    created_time = models.DateTimeField()
-    tags = models.ManyToManyField('Tag')
-
+    score = models.IntegerField(null=True)  # 文章的打分
+    created_time = models.DateTimeField(auto_now_add=True)
+    edit_time = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField('Tag', )
+    category = models.ForeignKey('Category')
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
         # 自定义 get_absolute_url 方法
         # 记得从 django.urls 中导入 reverse 函数
-
-    def get_absolute_url(self):
         return reverse('article_detail', kwargs={'pk': self.pk})
 
 
@@ -57,6 +51,7 @@ class Tag(models.Model):
         return self.name
 
 
+
 class User(models.Model):
     username = models.CharField(max_length=30)
     head_img = models.FileField(upload_to='./upload')
@@ -65,8 +60,10 @@ class User(models.Model):
         return self.username
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)  # 上传表单
 
-# 上传表单
+
 class UserForm(forms.Form):
     username = forms.CharField()
     head_img = forms.FileField()
