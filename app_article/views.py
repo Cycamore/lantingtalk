@@ -32,6 +32,7 @@ def index(request):
 
 
 def article_detail(request, pk):
+
     article = get_object_or_404(Article, pk=pk)
     # 记得在顶部引入 markdown 模块
     article.content = markdown.markdown(article.content,

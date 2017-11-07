@@ -8,6 +8,27 @@ from django.db import models
 from django.urls import reverse
 
 
+class Article(models.Model):
+    title = models.CharField(max_length=50)
+    author = models.ForeignKey('Author')
+    content = models.TextField()
+    # score = models.IntegerField(null=True, default=0)  # 文章的打分
+    created_time = models.DateTimeField(auto_now_add=True)
+    edit_time = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField('Tag')
+    category = models.ForeignKey('Category')
+
+    def __str__(self):
+        return self.title
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)  # 上传表单
+
+    def __str__(self):
+        return self.name
+
+
 class Author(models.Model):
     gender_choice = ((1, 'male'), (2, 'female'))
     name = models.CharField(unique=True, max_length=50)
@@ -19,29 +40,10 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
-
-class Article(models.Model):
-    title = models.CharField(max_length=50)
-    author = models.ForeignKey('Author')
-    content = models.TextField()
-    score = models.IntegerField(null=True)  # 文章的打分
-    created_time = models.DateTimeField(auto_now_add=True)
-    edit_time = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField('Tag', )
-    category = models.ForeignKey('Category')
-    def __str__(self):
-        return self.title
-
     def get_absolute_url(self):
         # 自定义 get_absolute_url 方法
         # 记得从 django.urls 中导入 reverse 函数
         return reverse('article_detail', kwargs={'pk': self.pk})
-
-
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'author', 'created_time', 'title', 'content')
-    list_editable = ('content',)
-    list_per_page = 5
 
 
 class Tag(models.Model):
@@ -51,17 +53,12 @@ class Tag(models.Model):
         return self.name
 
 
-
 class User(models.Model):
     username = models.CharField(max_length=30)
     head_img = models.FileField(upload_to='./upload')
 
     def __str__(self):
         return self.username
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)  # 上传表单
 
 
 class UserForm(forms.Form):
