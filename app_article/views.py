@@ -7,7 +7,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from app_article.models import *
 from app_article.serializers import ArticleSerializer
-from app_comments.forms import TestForm
+from app_comment.forms import TestForm
+from django.urls import reverse
+
+def test(request):
+    return render(request,'article/test.html',context={})
 
 
 @csrf_exempt
@@ -18,13 +22,7 @@ def article_list(request):
         return JsonResponse(serializer.data, safe=False)
 
 
-
 # Create your views here.
-
-def test(request):
-    form = TestForm()
-    return render(request, 'article/test.html', context={'form': form})
-
 
 def index(request):
     articles = Article.objects.all().order_by('-created_time')
@@ -32,7 +30,6 @@ def index(request):
 
 
 def article_detail(request, pk):
-
     article = get_object_or_404(Article, pk=pk)
     # 记得在顶部引入 markdown 模块
     article.content = markdown.markdown(article.content,
@@ -49,6 +46,7 @@ def article_detail(request, pk):
 
 # 文件上传
 def upload(request):
+
     if request.method == "POST":
         uf = UserForm(request.POST, request.FILES)
         if uf.is_valid():
@@ -80,3 +78,12 @@ def qiniuupload(request):
     return render_to_response('article/qiniuupload.html', {'token': token, 'key': key})
 
 
+from django.views import generic
+
+
+class IndexView(generic.ListView):
+    template_name = 'article/index.html'
+    context_object_name = 'articles'
+
+    def get_queryset(self):
+        return Article.objects.all()

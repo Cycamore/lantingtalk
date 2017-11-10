@@ -2,12 +2,21 @@
 {% block content %}
     <a href="/admin/">[admin]</a>
     <a href="/test/">test</a>
+
     {% for article in articles %}
         <a href="{% url 'article_detail' article.pk %}">
             <p>{{ article.title }}</p>
         </a>
-    {% empty %}
+
+
+
+
+
+
+
+
         <div class="no-post">暂时还没有发布的文章！</div>
+
     {% endfor %}
 
 {% endblock %}

@@ -2,22 +2,23 @@
 {% block content %}
     <p>{{ article.title }}</p>
     <p>{{ article.content|safe}}</p>
-    <p><a href="{% url 'article_index' %}">返回首页</a></p>
+    <p><a href="{% url 'index' %}">返回首页</a></p>
     <p><a href="/admin/">[admin]</a></p>
     <hr>
 
+
     {# post comment#}
 
-    <form action="{% url 'comment_add' article.pk %}" method="post">
+    <form action="{% url 'article_comments' article.pk %}" method="post">
         {% csrf_token %}
-        user name:<input type="text" name="user"><br>
+{#        user name:<input type="text" name="user"><br>#}
         comment:<input type="text" name="text"> <br>
         <input type="submit" value="summit">
     </form>
 
     {#  comment list#}
     {% for comment in comments %}
-        <p>{{ comment.user }}--{{ comment.created_time }}</p>
+        <p>{{ comment.user }}--{{ comment.created_time|date:'Y-m-d H:i:s' }}</p>
         <p>{{ comment.text }}</p>
         <hr>
     {% empty %}

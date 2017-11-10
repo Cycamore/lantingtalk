@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class CommentsConfig(AppConfig):
-    name = 'app_comments'
+    name = 'app_comment'

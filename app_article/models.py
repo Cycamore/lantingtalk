@@ -10,20 +10,25 @@ from django.urls import reverse
 
 class Article(models.Model):
     title = models.CharField(max_length=50)
-    author = models.ForeignKey('Author')
+    # author = models.ForeignKey('Author')
+    category = models.ForeignKey('Category')
     content = models.TextField()
     # score = models.IntegerField(null=True, default=0)  # 文章的打分
     created_time = models.DateTimeField(auto_now_add=True)
     edit_time = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField('Tag')
-    category = models.ForeignKey('Category')
+
+    # author= user
+
+    def get_absolute_url(self):
+        return reverse('article_detail', args={self.pk})
 
     def __str__(self):
         return self.title
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)  # 上传表单
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
